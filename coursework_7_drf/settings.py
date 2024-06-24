@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -30,6 +31,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+
+    'habits',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +122,46 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1)
+}
+
+
+# URL-адрес брокера сообщений
+CELERY_BROKER_URL = os.environ.get('REDIS_LOCATION')
+#
+# # URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_LOCATION')
+
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CACHE_ENABLED = os.environ.get('CACHE_ENABLED', False) == 'True'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": os.environ.get('REDIS_LOCATION'),
+    }
+}
+
+# CELERY_BEAT_SCHEDULE = {
+#     'user-deactivate': {
+#         'task': 'users.tasks.user_deactivate',
+#         'schedule': timedelta(days=1),
+#     },
+# }
