@@ -139,7 +139,6 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1)
 }
 
-
 # URL-адрес брокера сообщений
 CELERY_BROKER_URL = os.environ.get('REDIS_LOCATION')
 #
@@ -165,3 +164,5 @@ CACHES = {
 #         'schedule': timedelta(days=1),
 #     },
 # }
+
+API_TG = os.environ.get('API_TG')
