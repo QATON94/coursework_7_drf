@@ -99,7 +99,8 @@ class MaterialsTestCase(APITestCase):
 
     def test_user_create(self):
         url = reverse('users:register')
-        response = self.client.post(url, {'email': 'new_user@mail.ru', 'password': '123qwe', 'telegram_id': '123456789'})
+        response = self.client.post(url,
+                                    {'email': 'new_user@mail.ru', 'password': '123qwe', 'telegram_id': '123456789'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(User.objects.count(), 2)
         self.assertEqual(response.data['email'], 'new_user@mail.ru')
