@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils import timezone
@@ -42,7 +44,7 @@ class Habit(models.Model):
                                                 verbose_name='Время на выполнение привычки', )
     sign_publicity = models.BooleanField(default=False, verbose_name='Общедоступность',
                                          help_text='привычки можно публиковать в общий доступ ')
-    data_notification = models.DateField(default=timezone.now(), blank=True,
+    data_notification = models.DateField(default=date.today(), blank=True,
                                          verbose_name='Дата уведомления')
 
     def __str__(self):
