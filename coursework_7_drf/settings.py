@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'django_celery_beat',
+    'drf_yasg',
 
     'habits',
     'users',
@@ -158,11 +160,11 @@ CACHES = {
     }
 }
 
-# CELERY_BEAT_SCHEDULE = {
-#     'user-deactivate': {
-#         'task': 'users.tasks.user_deactivate',
-#         'schedule': timedelta(days=1),
-#     },
-# }
+CELERY_BEAT_SCHEDULE = {
+    'check_habit': {
+        'task': 'habits.tasks.check_habit',
+        'schedule': timedelta(minutes=1),
+    },
+}
 
 API_TG = os.environ.get('API_TG')

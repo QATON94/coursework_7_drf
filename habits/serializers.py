@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
 from habits.models import Habit
-# from habits.validators import ValidatorHabits
 
 
 class HabitListSerializer(serializers.ModelSerializer):
