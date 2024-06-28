@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 
 from coursework_7_drf.settings import AUTH_USER_MODEL
+from django.utils import timezone
 
 
 class Habit(models.Model):
@@ -39,15 +40,16 @@ class Habit(models.Model):
     periodicity = models.CharField(max_length=5, choices=PERIODICITY, default=ONE)
     reward = models.CharField(max_length=300, verbose_name='Награда', help_text='Награда после выполнения привычки',
                               blank=True, null=True, default=None)
-    time_complete = models.PositiveIntegerField(default=120, validators=[MaxValueValidator(120)],
+    time_complete = models.PositiveIntegerField(default=120, validators=[
+        MaxValueValidator(120, message='Время выполнения должно быть не больше 120 секунд.'), ],
                                                 verbose_name='Время на выполнение привычки', )
     sign_publicity = models.BooleanField(default=False, verbose_name='Общедоступность',
                                          help_text='привычки можно публиковать в общий доступ ')
-    data_notification = models.DateField(default=date.today(), blank=True,
+    data_notification = models.DateField(auto_now=True, blank=True,
                                          verbose_name='Дата уведомления')
 
     def __str__(self):
-        return self.action
+        return self.id
 
     class Meta:
         verbose_name = 'Привычка'

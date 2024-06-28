@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -13,10 +14,9 @@ class HabitListAPIView(generics.ListAPIView):
     pagination_class = CustomPaginator
 
     def get_queryset(self):
-        queryset = []
-        queryset.extend(Habit.objects.all().filter(sign_publicity=True))
-        queryset.extend(Habit.objects.all().filter(user=self.request.user))
-        return list(set(queryset))
+        return Habit.objects.filter(
+            Q(sign_publicity=True) | Q(user=self.request.user)
+        ).distinct()
 
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from habits.models import Habit
-from habits.validators import NiceHabitValidator
+from habits.validators import NiceHabitValidator, RelatedHabitValidator
 
 
 class HabitListSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class HobitCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = '__all__'
-        validators = [NiceHabitValidator(), ]
+        validators = [NiceHabitValidator(), RelatedHabitValidator(field='related_habit')]
 
     # def validate(self, data):
     #     if data['sign_pleasant_habit']:
