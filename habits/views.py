@@ -10,7 +10,7 @@ from users.permissions import IsOwner
 
 class HabitListAPIView(generics.ListAPIView):
     serializer_class = HabitListSerializer
-    permission_classes = [IsOwner]
+    permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPaginator
 
     def get_queryset(self):
@@ -51,3 +51,10 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
 class HabitDestroyAPIView(generics.DestroyAPIView):
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
+
+
+class HabitPublicListAPIView(generics.ListAPIView):
+    serializer_class = HabitListSerializer
+    permission_classes = [IsAuthenticated, ]
+    queryset = Habit.objects.all().filter(sign_publicity=True)
+    pagination_class = CustomPaginator
